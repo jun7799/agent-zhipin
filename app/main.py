@@ -1,10 +1,12 @@
 """FastAPI应用入口"""
 
 import os
+import traceback
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.config import settings
 from app.database import init_db
@@ -39,6 +41,22 @@ app.add_middleware(
 
 # 注册路由
 app.include_router(api_router)
+
+
+# 全局异常处理：捕获所有未处理异常，返回详细错误信息
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={
+            "success": False,
+            "error": {
+                "code": "INTERNAL_ERROR",
+                "message": str(exc),
+                "traceback": traceback.format_exc(),
+            },
+        },
+    )
 
 
 @app.get("/")
