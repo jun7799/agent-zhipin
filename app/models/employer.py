@@ -19,8 +19,8 @@ class Employer(Base):
     credit_code: Mapped[str] = mapped_column(String(18), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(200), unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String(200), nullable=False)
-    api_key: Mapped[str | None] = mapped_column(String(64), unique=True, nullable=True)
-    api_key_secret: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    api_key: Mapped[str | None] = mapped_column(String(128), unique=True, nullable=True)
+    api_key_secret: Mapped[str | None] = mapped_column(String(128), nullable=True)
     # pending/approved/rejected/disabled
     status: Mapped[str] = mapped_column(String(20), nullable=False, default="pending")
     free_slots: Mapped[int] = mapped_column(Integer, nullable=False, default=6)
