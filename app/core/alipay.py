@@ -1,29 +1,40 @@
 """支付宝支付客户端封装"""
 
-import uuid
-from datetime import datetime
+import os
 
 from alipay import AliPay
 
 from app.config import settings
 
 
-def _load_key(filepath: str) -> str:
-    """加载密钥文件，自动添加PEM头尾（如果缺少）"""
-    with open(filepath, "r") as f:
-        content = f.read().strip()
+def _load_key_string(filepath_or_content: str) -> str:
+    """
+    加载密钥内容，支持文件路径或直接内容
+    自动添加PEM头尾（如果缺少）
+    """
+    # 如果是文件路径且文件存在，从文件读取
+    if os.path.isfile(filepath_or_content):
+        with open(filepath_or_content, "r") as f:
+            content = f.read().strip()
+    else:
+        content = filepath_or_content.strip()
 
-    # 如果没有PEM头尾，自动包装
     if not content.startswith("-----BEGIN"):
         content = f"-----BEGIN RSA PRIVATE KEY-----\n{content}\n-----END RSA PRIVATE KEY-----"
 
     return content
 
 
-def _load_public_key(filepath: str) -> str:
-    """加载支付宝公钥文件，自动添加PEM头尾（如果缺少）"""
-    with open(filepath, "r") as f:
-        content = f.read().strip()
+def _load_public_key_string(filepath_or_content: str) -> str:
+    """
+    加载支付宝公钥，支持文件路径或直接内容
+    自动添加PEM头尾（如果缺少）
+    """
+    if os.path.isfile(filepath_or_content):
+        with open(filepath_or_content, "r") as f:
+            content = f.read().strip()
+    else:
+        content = filepath_or_content.strip()
 
     if not content.startswith("-----BEGIN"):
         content = f"-----BEGIN PUBLIC KEY-----\n{content}\n-----END PUBLIC KEY-----"
@@ -36,8 +47,8 @@ def get_alipay_client() -> AliPay:
     return AliPay(
         appid=settings.ALIPAY_APP_ID,
         app_notify_url=settings.ALIPAY_NOTIFY_URL,
-        app_private_key_string=_load_key(settings.ALIPAY_APP_PRIVATE_KEY_PATH),
-        alipay_public_key_string=_load_public_key(settings.ALIPAY_PUBLIC_KEY_PATH),
+        app_private_key_string=_load_key_string(settings.ALIPAY_APP_PRIVATE_KEY_PATH),
+        alipay_public_key_string=_load_public_key_string(settings.ALIPAY_PUBLIC_KEY_PATH),
         sign_type="RSA2",
         debug=settings.ALIPAY_DEBUG,
     )
