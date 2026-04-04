@@ -5,10 +5,18 @@ from sqlalchemy.orm import DeclarativeBase
 
 from app.config import settings
 
-engine = create_async_engine(
-    settings.DATABASE_URL,
-    echo=settings.DEBUG,
-)
+# PostgreSQL需要连接池配置，SQLite不需要
+is_postgres = settings.DATABASE_URL.startswith("postgresql")
+
+engine_kwargs = {"echo": settings.DEBUG}
+if is_postgres:
+    engine_kwargs.update({
+        "pool_size": 5,
+        "max_overflow": 10,
+        "pool_pre_ping": True,
+    })
+
+engine = create_async_engine(settings.DATABASE_URL, **engine_kwargs)
 
 async_session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 

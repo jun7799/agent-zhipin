@@ -14,8 +14,9 @@ from app.api.router import api_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """应用生命周期：启动时初始化数据库"""
-    # 确保data目录存在（SQLite需要）
-    os.makedirs("data", exist_ok=True)
+    # SQLite需要创建data目录，PostgreSQL不需要
+    if settings.DATABASE_URL.startswith("sqlite"):
+        os.makedirs("data", exist_ok=True)
     await init_db()
     yield
 
