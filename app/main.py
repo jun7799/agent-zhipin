@@ -53,3 +53,17 @@ async def root():
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+
+@app.get("/debug/db")
+async def debug_db():
+    """调试接口：测试数据库连接"""
+    try:
+        from app.database import engine, async_session
+        from sqlalchemy import text
+        async with async_session() as session:
+            result = await session.execute(text("SELECT 1"))
+            row = result.scalar()
+            return {"status": "ok", "db_url_prefix": settings.DATABASE_URL[:30], "query_result": row}
+    except Exception as e:
+        return {"status": "error", "error": str(e), "error_type": type(e).__name__}
