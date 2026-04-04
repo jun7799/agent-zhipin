@@ -1,7 +1,5 @@
 """数据库连接与会话管理"""
 
-import ssl
-
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 
@@ -12,13 +10,13 @@ is_postgres = settings.DATABASE_URL.startswith("postgresql")
 
 engine_kwargs = {"echo": settings.DEBUG}
 if is_postgres:
-    # asyncpg用ssl=require，自动替换sslmode=require（Neon默认给的格式）
-    db_url = settings.DATABASE_URL.replace("sslmode=require", "ssl=require")
+    # 去掉URL中的sslmode参数，通过connect_args传SSL
+    db_url = settings.DATABASE_URL.split("?")[0]
     engine_kwargs.update({
         "pool_size": 5,
         "max_overflow": 10,
         "pool_pre_ping": True,
-        "connect_args": {"ssl": ssl.create_default_context()},
+        "connect_args": {"ssl": True},
     })
 else:
     db_url = settings.DATABASE_URL
