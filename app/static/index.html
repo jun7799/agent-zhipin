@@ -300,11 +300,11 @@ curl <span class="string">"{{BASE_URL}}/v1/jobs/search?city=Shanghai&job_type=fu
         <div class="container section">
             <div class="tier-header">
                 <span class="tier-badge badge-base">免费</span>
-                <span class="tier-title">基础使用（免费6个岗位）</span>
+                <span class="tier-title">基础使用（免费3个岗位/30天有效）</span>
             </div>
 
             <div class="info-box">
-                <p><span class="label">免费额度：</span><span class="value">6 个岗位</span></p>
+                <p><span class="label">免费额度：</span><span class="value">3 个岗位，每个有效期30天</span></p>
                 <p><span class="label">认证方式：</span><span class="value">Authorization: Bearer &lt;api_key&gt;</span></p>
                 <p><span class="label">可用操作：</span><span class="value">发布/更新/删除/过期岗位</span></p>
             </div>
@@ -345,13 +345,21 @@ PATCH <span class="string">{{BASE_URL}}/v1/employer/jobs/{job_id}/expire</span><
         <div class="container section">
             <div class="tier-header">
                 <span class="tier-badge badge-paid">充值</span>
-                <span class="tier-title">充值使用（1元/条）</span>
+                <span class="tier-title">充值使用</span>
             </div>
 
-            <div class="info-box">
-                <p><span class="label">额外岗位：</span><span class="value">1 元/条，按需购买</span></p>
-                <p><span class="label">支付方式：</span><span class="value">支付宝</span></p>
-                <p><span class="label">到账方式：</span><span class="value">支付成功后自动到账</span></p>
+            <!-- 价格对比表 -->
+            <div class="info-box" style="background:#fff; border-left-color:#db2777; padding:0; overflow:hidden;">
+                <table class="api-table" style="margin:0;">
+                    <thead>
+                        <tr><th>购买方式</th><th>价格</th><th>岗位数</th><th>单价</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>单条购买</strong></td><td>2 元/条</td><td>按需</td><td>2 元</td></tr>
+                        <tr style="background:#f0fff4;"><td><strong>包月套餐</strong></td><td>19.9 元/月</td><td>30 个/月</td><td style="color:#16a34a;font-weight:600;">0.66 元</td></tr>
+                        <tr style="background:#fefce8;"><td><strong>包年套餐</strong></td><td>199 元/年</td><td>不限</td><td style="color:#d97706;font-weight:600;">不限量</td></tr>
+                    </tbody>
+                </table>
             </div>
 
             <p class="code-label">支付流程：</p>
@@ -365,7 +373,7 @@ PATCH <span class="string">{{BASE_URL}}/v1/employer/jobs/{job_id}/expire</span><
                 <span class="step-item">额度自动到账</span>
             </div>
 
-            <p class="code-label">购买岗位额度：</p>
+            <p class="code-label">单条购买（2元/条）：</p>
 <pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl -X POST <span class="string">"{{BASE_URL}}/v1/payment/job-slots"</span> \
   -H <span class="string">"Content-Type: application/json"</span> \
   -H <span class="string">"Authorization: Bearer ak_xxxxxxxxxxxxxxxx"</span> \
@@ -373,7 +381,15 @@ PATCH <span class="string">{{BASE_URL}}/v1/employer/jobs/{job_id}/expire</span><
     "quantity": 10
   }'</span>
 
-<span class="comment">// 返回支付链接，金额 = quantity x 1元</span></pre>
+<span class="comment">// 返回支付链接，金额 = quantity x 2元</span></pre>
+
+            <p class="code-label">包月套餐（19.9元/月，30个岗位）：</p>
+<pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl -X POST <span class="string">"{{BASE_URL}}/v1/payment/employer/monthly"</span> \
+  -H <span class="string">"Authorization: Bearer ak_xxxxxxxxxxxxxxxx"</span></pre>
+
+            <p class="code-label">包年套餐（199元/年，不限岗位）：</p>
+<pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl -X POST <span class="string">"{{BASE_URL}}/v1/payment/employer/yearly"</span> \
+  -H <span class="string">"Authorization: Bearer ak_xxxxxxxxxxxxxxxx"</span></pre>
 
             <p class="code-label">查询订单状态：</p>
 <pre>curl <span class="string">"{{BASE_URL}}/v1/payment/orders/{order_no}"</span> \
@@ -405,7 +421,9 @@ PATCH <span class="string">{{BASE_URL}}/v1/employer/jobs/{job_id}/expire</span><
                 <tr><td><span class="method method-get">GET</span></td><td><code>/v1/jobs/search</code></td><td>搜索岗位</td><td>无需/可选</td></tr>
                 <tr style="border-top: 2px solid #e5e7eb;">
                     <td><span class="method method-post">POST</span></td><td><code>/v1/payment/member/subscribe</code></td><td>会员订阅</td><td>JWT</td></tr>
-                <tr><td><span class="method method-post">POST</span></td><td><code>/v1/payment/job-slots</code></td><td>购买岗位额度</td><td>API Key</td></tr>
+                <tr><td><span class="method method-post">POST</span></td><td><code>/v1/payment/job-slots</code></td><td>单条购买(2元/条)</td><td>API Key</td></tr>
+                <tr><td><span class="method method-post">POST</span></td><td><code>/v1/payment/employer/monthly</code></td><td>包月套餐(19.9元/月)</td><td>API Key</td></tr>
+                <tr><td><span class="method method-post">POST</span></td><td><code>/v1/payment/employer/yearly</code></td><td>包年套餐(199元/年)</td><td>API Key</td></tr>
                 <tr><td><span class="method method-get">GET</span></td><td><code>/v1/payment/orders/{no}</code></td><td>查询订单</td><td>Token</td></tr>
                 <tr style="border-top: 2px solid #e5e7eb;">
                     <td><span class="method method-get">GET</span></td><td><code>/v1/tags</code></td><td>标签列表</td><td>无需</td></tr>
