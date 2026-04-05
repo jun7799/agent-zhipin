@@ -5,10 +5,13 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 from app.config import settings
 from app.database import init_db
 from app.api.router import api_router
+
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 
 
 @asynccontextmanager
@@ -43,11 +46,8 @@ app.include_router(api_router)
 
 @app.get("/")
 async def root():
-    return {
-        "name": settings.APP_NAME,
-        "version": settings.APP_VERSION,
-        "docs": "/docs",
-    }
+    """引导页"""
+    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
 
 
 @app.get("/health")
