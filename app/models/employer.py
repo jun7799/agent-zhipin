@@ -25,8 +25,8 @@ class Employer(Base):
     status: Mapped[str] = mapped_column(String(20), nullable=False, default="pending")
     free_slots: Mapped[int] = mapped_column(Integer, nullable=False, default=6)
     created_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, default=func.now()
+        DateTime(timezone=True), nullable=False, default=func.now()
     )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, default=func.now(), onupdate=func.now()
+        DateTime(timezone=True), nullable=False, default=func.now(), onupdate=func.now()
     )

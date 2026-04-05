@@ -31,11 +31,11 @@ class Payment(Base):
 
     # pending/paid/expired/refunded
     status: Mapped[str] = mapped_column(String(20), nullable=False, default="pending")
-    paid_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
-    expired_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    paid_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    expired_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, default=func.now()
+        DateTime(timezone=True), nullable=False, default=func.now()
     )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, default=func.now(), onupdate=func.now()
+        DateTime(timezone=True), nullable=False, default=func.now(), onupdate=func.now()
     )

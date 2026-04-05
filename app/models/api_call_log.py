@@ -22,5 +22,5 @@ class ApiCallLog(Base):
     endpoint: Mapped[str] = mapped_column(String(200), nullable=False)
     api_key_used: Mapped[str | None] = mapped_column(String(64), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, default=func.now()
+        DateTime(timezone=True), nullable=False, default=func.now()
     )

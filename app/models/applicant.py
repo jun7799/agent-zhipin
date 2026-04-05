@@ -18,10 +18,10 @@ class Applicant(Base):
     email: Mapped[str] = mapped_column(String(200), unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String(200), nullable=False)
     is_member: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    member_expire_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    member_expire_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, default=func.now()
+        DateTime(timezone=True), nullable=False, default=func.now()
     )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, default=func.now(), onupdate=func.now()
+        DateTime(timezone=True), nullable=False, default=func.now(), onupdate=func.now()
     )
