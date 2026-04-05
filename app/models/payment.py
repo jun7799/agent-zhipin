@@ -19,14 +19,14 @@ class Payment(Base):
     user_id: Mapped[str] = mapped_column(String(36), nullable=False)
     # employer/applicant
     user_type: Mapped[str] = mapped_column(String(20), nullable=False)
-    # member_monthly/job_extra
+    # member_monthly / job_extra / employer_monthly / employer_yearly
     trade_type: Mapped[str] = mapped_column(String(30), nullable=False)
     # 金额，单位：分
     amount: Mapped[int] = mapped_column(Integer, nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
 
     # 支付平台相关
-    pay_transaction_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    pay_transaction_id: Mapped[str | None] = mapped_column(String(128), nullable=True)
     pay_code_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
     # pending/paid/expired/refunded

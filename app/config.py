@@ -23,14 +23,22 @@ class Settings:
     DEBUG: bool = os.getenv("DEBUG", "true").lower() == "true"
 
     # 限流
-    RATE_LIMIT_ANONYMOUS: int = int(os.getenv("RATE_LIMIT_ANONYMOUS", "5"))
-    RATE_LIMIT_REGISTERED: int = int(os.getenv("RATE_LIMIT_REGISTERED", "10"))
-    RATE_LIMIT_MEMBER: int = int(os.getenv("RATE_LIMIT_MEMBER", "100"))
+    RATE_LIMIT_ANONYMOUS: int = int(os.getenv("RATE_LIMIT_ANONYMOUS", "3"))
+    RATE_LIMIT_REGISTERED: int = int(os.getenv("RATE_LIMIT_REGISTERED", "20"))
+    RATE_LIMIT_MEMBER: int = int(os.getenv("RATE_LIMIT_MEMBER", "200"))
 
-    # 岗位
-    FREE_JOB_SLOTS: int = int(os.getenv("FREE_JOB_SLOTS", "6"))
-    JOB_PRICE_CENTS: int = int(os.getenv("JOB_PRICE_CENTS", "100"))
-    MEMBER_PRICE_CENTS: int = int(os.getenv("MEMBER_PRICE_CENTS", "990"))
+    # 岗位定价
+    FREE_JOB_SLOTS: int = int(os.getenv("FREE_JOB_SLOTS", "3"))
+    JOB_PRICE_CENTS: int = int(os.getenv("JOB_PRICE_CENTS", "200"))  # 2元/条
+    JOB_DEFAULT_EXPIRE_DAYS: int = int(os.getenv("JOB_DEFAULT_EXPIRE_DAYS", "30"))
+
+    # 求职者会员
+    MEMBER_PRICE_CENTS: int = int(os.getenv("MEMBER_PRICE_CENTS", "990"))  # 9.9元/月
+
+    # 招聘方套餐
+    EMPLOYER_MONTHLY_PRICE_CENTS: int = int(os.getenv("EMPLOYER_MONTHLY_PRICE_CENTS", "1990"))  # 19.9元/月
+    EMPLOYER_MONTHLY_SLOTS: int = int(os.getenv("EMPLOYER_MONTHLY_SLOTS", "30"))
+    EMPLOYER_YEARLY_PRICE_CENTS: int = int(os.getenv("EMPLOYER_YEARLY_PRICE_CENTS", "19900"))  # 199元/年
     DEFAULT_PAGE_SIZE: int = int(os.getenv("DEFAULT_PAGE_SIZE", "10"))
     MAX_PAGE_SIZE: int = int(os.getenv("MAX_PAGE_SIZE", "50"))
 
