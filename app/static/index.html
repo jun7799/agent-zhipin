@@ -10,444 +10,93 @@
         a { color: #4f46e5; text-decoration: none; }
         a:hover { text-decoration: underline; }
 
-        /* Container */
-        .container { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+        .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
 
-        /* Header */
-        .header { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; padding: 50px 0 40px; text-align: center; }
-        .header h1 { font-size: 2.4em; margin-bottom: 8px; }
-        .header .subtitle { font-size: 1.15em; opacity: 0.9; margin-bottom: 20px; }
-        .header .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-        .btn { display: inline-block; padding: 10px 24px; border-radius: 8px; font-size: 0.95em; cursor: pointer; border: none; transition: background 0.2s; }
-        .btn-white { background: white; color: #4f46e5; }
-        .btn-white:hover { background: #f0f0ff; text-decoration: none; }
-        .btn-outline { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.6); }
-        .btn-outline:hover { background: rgba(255,255,255,0.1); text-decoration: none; }
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; padding: 60px 0 50px; text-align: center; }
+        .hero h1 { font-size: 2.6em; margin-bottom: 10px; }
+        .hero .subtitle { font-size: 1.15em; opacity: 0.9; margin-bottom: 30px; }
+        .hero .steps { display: flex; justify-content: center; gap: 12px; align-items: center; font-size: 1.05em; flex-wrap: wrap; }
+        .hero .step-num { background: rgba(255,255,255,0.2); width: 32px; height: 32px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
+        .hero .arrow { opacity: 0.5; font-size: 1.2em; }
 
-        /* Main Tabs */
-        .main-tabs { display: flex; justify-content: center; gap: 0; background: white; border-bottom: 2px solid #e5e7eb; }
-        .main-tab { flex: 1; max-width: 300px; padding: 16px 0; text-align: center; font-size: 1.1em; font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; color: #888; transition: all 0.2s; }
-        .main-tab:hover { color: #4f46e5; }
-        .main-tab.active { color: #4f46e5; border-bottom-color: #4f46e5; }
+        /* Skill Box */
+        .skill-section { background: #1e1b4b; padding: 50px 0; }
+        .skill-section h2 { color: white; font-size: 1.4em; margin-bottom: 8px; text-align: center; }
+        .skill-section .hint { color: rgba(255,255,255,0.7); text-align: center; margin-bottom: 20px; font-size: 0.95em; }
+        .skill-box { position: relative; background: rgba(0,0,0,0.35); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
+        .skill-box textarea { width: 100%; height: 500px; background: transparent; color: #cdd6f4; border: none; padding: 20px; font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 0.8em; line-height: 1.6; resize: vertical; outline: none; }
+        .skill-copy-btn { position: absolute; top: 12px; right: 12px; background: #4f46e5; color: white; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 0.9em; font-weight: 600; z-index: 1; }
+        .skill-copy-btn:hover { background: #4338ca; }
+        .skill-copy-btn.copied { background: #16a34a; }
 
-        /* Sub Tabs */
-        .sub-tabs { display: flex; gap: 0; background: white; padding: 0; border-bottom: 1px solid #e5e7eb; }
-        .sub-tab { padding: 12px 24px; text-align: center; font-size: 0.95em; cursor: pointer; color: #888; border-bottom: 2px solid transparent; transition: all 0.2s; }
-        .sub-tab:hover { color: #4f46e5; }
-        .sub-tab.active { color: #4f46e5; border-bottom-color: #4f46e5; font-weight: 600; }
+        /* Pricing */
+        .pricing { padding: 50px 0; background: white; }
+        .pricing h2 { font-size: 1.5em; text-align: center; margin-bottom: 24px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .price-card { background: #f8f9fc; border-radius: 12px; padding: 20px; text-align: center; border: 2px solid transparent; }
+        .price-card.recommended { border-color: #4f46e5; background: #f0f0ff; position: relative; }
+        .price-card .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #4f46e5; color: white; padding: 2px 14px; border-radius: 12px; font-size: 0.78em; font-weight: 600; }
+        .price-card .name { font-weight: 700; font-size: 1.05em; margin-bottom: 8px; }
+        .price-card .price { font-size: 1.8em; font-weight: 800; color: #4f46e5; }
+        .price-card .price small { font-size: 0.4em; font-weight: 400; color: #888; }
+        .price-card .desc { color: #666; font-size: 0.88em; margin-top: 6px; }
 
-        /* Content */
-        .tab-content { display: none; background: white; }
-        .tab-content.active { display: block; }
-        .section { padding: 30px 0; }
-        .section-alt { background: #f8f9fc; }
+        /* Usage Flow */
+        .flow { padding: 40px 0; }
+        .flow h2 { font-size: 1.5em; text-align: center; margin-bottom: 24px; }
+        .flow-steps { display: flex; gap: 0; align-items: stretch; }
+        .flow-step { flex: 1; text-align: center; padding: 20px 12px; position: relative; }
+        .flow-step .num { width: 40px; height: 40px; background: #4f46e5; color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1em; margin-bottom: 10px; }
+        .flow-step .title { font-weight: 700; margin-bottom: 6px; }
+        .flow-step .desc { color: #666; font-size: 0.88em; }
+        .flow-step:not(:last-child)::after { content: "→"; position: absolute; right: -8px; top: 36px; color: #4f46e5; font-size: 1.4em; font-weight: 700; }
 
-        /* Info box */
-        .info-box { background: #f0f0ff; border-left: 4px solid #4f46e5; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; }
-        .info-box p { margin: 3px 0; font-size: 0.93em; }
-        .info-box .label { font-weight: 600; color: #4f46e5; }
-        .info-box .value { color: #333; }
-
-        /* Tier header */
-        .tier-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
-        .tier-badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 0.85em; font-weight: 600; }
-        .badge-free { background: #dcfce7; color: #16a34a; }
-        .badge-reg { background: #dbeafe; color: #2563eb; }
-        .badge-vip { background: #fef3c7; color: #d97706; }
-        .badge-base { background: #dcfce7; color: #16a34a; }
-        .badge-paid { background: #fce7f3; color: #db2777; }
-        .tier-title { font-size: 1.3em; font-weight: 700; }
-
-        /* Code */
-        .code-label { font-size: 0.85em; color: #888; margin-top: 14px; margin-bottom: 4px; font-weight: 600; }
-        pre { background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 0.85em; line-height: 1.5; position: relative; }
-        pre .comment { color: #6c7086; }
-        pre .string { color: #a6e3a1; }
-        pre .key { color: #89b4fa; }
-        .copy-btn { position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.1); color: #aaa; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8em; }
-        .copy-btn:hover { background: rgba(255,255,255,0.2); }
-
-        /* Steps */
-        .step-flow { display: flex; align-items: center; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
-        .step-item { background: #4f46e5; color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.88em; }
-        .step-arrow { color: #4f46e5; font-size: 1.2em; }
-
-        /* Table */
-        .api-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.92em; }
-        .api-table th { background: #f0f0ff; color: #4f46e5; padding: 10px 14px; text-align: left; font-weight: 600; }
-        .api-table td { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; }
-        .api-table code { background: #eef; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
-        .method { font-weight: 600; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; }
-        .method-get { background: #dcfce7; color: #16a34a; }
-        .method-post { background: #dbeafe; color: #2563eb; }
-        .method-put { background: #fef3c7; color: #d97706; }
-        .method-delete { background: #fee2e2; color: #dc2626; }
-        .method-patch { background: #e0e7ff; color: #6366f1; }
+        /* Links */
+        .links { padding: 30px 0; text-align: center; background: #f8f9fc; }
+        .links a { display: inline-block; margin: 0 10px; padding: 10px 24px; background: #4f46e5; color: white; border-radius: 8px; font-weight: 600; }
+        .links a:hover { background: #4338ca; text-decoration: none; }
 
         /* Footer */
         .footer { background: #1a1a2e; color: #888; text-align: center; padding: 24px 0; font-size: 0.88em; }
         .footer a { color: #a6e3a1; }
 
-        /* Responsive */
         @media (max-width: 640px) {
-            .header h1 { font-size: 1.8em; }
-            .info-box { padding: 10px 14px; }
-            pre { font-size: 0.78em; padding: 12px; }
-            .main-tab { font-size: 1em; }
+            .hero h1 { font-size: 1.8em; }
+            .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+            .flow-steps { flex-direction: column; }
+            .flow-step:not(:last-child)::after { content: "↓"; right: auto; top: auto; bottom: -8px; left: 50%; transform: translateX(-50%); }
+            .skill-box textarea { font-size: 0.72em; height: 350px; }
         }
     </style>
 </head>
 <body>
 
-<!-- Header -->
-<div class="header">
+<!-- Hero -->
+<div class="hero">
     <div class="container">
         <h1>Agent直聘</h1>
-        <p class="subtitle">面向 AI Agent 的极简招聘信息 API 平台</p>
-        <div class="btns">
-            <a href="/docs" class="btn btn-white">查看 API 文档</a>
-            <a href="/redoc" class="btn btn-outline">ReDoc 文档</a>
+        <p class="subtitle">复制 Skill 给你的 AI Agent，对话式完成招聘发布</p>
+        <div class="steps">
+            <span><span class="step-num">1</span> 复制 Skill</span>
+            <span class="arrow">→</span>
+            <span><span class="step-num">2</span> 粘贴给 Agent</span>
+            <span class="arrow">→</span>
+            <span><span class="step-num">3</span> 对话发布招聘</span>
         </div>
     </div>
 </div>
 
-<!-- Main Tabs -->
-<div class="main-tabs container">
-    <div class="main-tab active" onclick="switchMainTab('seeker')">我是求职者</div>
-    <div class="main-tab" onclick="switchMainTab('employer')">我是招聘方</div>
-</div>
-
-<!-- ==================== 求职者 ==================== -->
-<div id="tab-seeker" class="tab-content active">
+<!-- Skill -->
+<div class="skill-section">
     <div class="container">
-        <div class="sub-tabs">
-            <div class="sub-tab active" onclick="switchSubTab('seeker', 'free')">免登录调用</div>
-            <div class="sub-tab" onclick="switchSubTab('seeker', 'reg')">注册用户</div>
-            <div class="sub-tab" onclick="switchSubTab('seeker', 'vip')">会员用户</div>
-        </div>
-    </div>
+        <h2>复制以下 Skill，给你的 AI Agent</h2>
+        <p class="hint">支持 Claude、ChatGPT、豆包、Kimi 等任何 AI Agent，粘贴到系统提示词即可</p>
+        <div class="skill-box">
+            <button class="skill-copy-btn" id="skill-copy-btn" onclick="copySkill()">一键复制</button>
+            <textarea id="skill-content" readonly># Agent直聘 - 招聘方 Skill
 
-    <!-- 免登录 -->
-    <div id="seeker-free" class="tab-content active">
-        <div class="container section">
-            <div class="tier-header">
-                <span class="tier-badge badge-free">免费</span>
-                <span class="tier-title">免登录调用（按IP限流）</span>
-            </div>
-
-            <div class="info-box">
-                <p><span class="label">每日可调用：</span><span class="value">5 次</span></p>
-                <p><span class="label">可用接口：</span><span class="value">搜索岗位</span></p>
-                <p><span class="label">认证方式：</span><span class="value">无需认证，按 IP 地址计数</span></p>
-            </div>
-
-            <p class="code-label">调用示例：</p>
-<pre><button class="copy-btn" onclick="copyCode(this)">复制</button><span class="comment"># 搜索上海的全职Python岗位</span>
-curl <span class="string">"{{BASE_URL}}/v1/jobs/search?city=Shanghai&job_type=fulltime&keyword=Python"</span></pre>
-
-            <p class="code-label">返回示例：</p>
-<pre><span class="comment">// 每次调用会在 meta.rate_limit 中返回剩余次数</span>
-{
-  <span class="key">"success"</span>: <span class="string">true</span>,
-  <span class="key">"data"</span>: {
-    <span class="key">"jobs"</span>: [{
-      <span class="key">"title"</span>: <span class="string">"Python Developer"</span>,
-      <span class="key">"company_name"</span>: <span class="string">"XX科技"</span>,
-      <span class="key">"city"</span>: <span class="string">"Shanghai"</span>,
-      <span class="key">"salary_min"</span>: <span class="string">15000</span>,
-      <span class="key">"salary_max"</span>: <span class="string">25000</span>,
-      <span class="key">"contact_email"</span>: <span class="string">"hr@xx.com"</span>
-    }],
-    <span class="key">"total"</span>: <span class="string">1</span>,
-    <span class="key">"has_more"</span>: <span class="string">false</span>
-  },
-  <span class="key">"meta"</span>: { <span class="key">"rate_limit"</span>: { <span class="key">"limit"</span>: 5, <span class="key">"used"</span>: 1, <span class="key">"remaining"</span>: 4 } }
-}</pre>
-        </div>
-    </div>
-
-    <!-- 注册用户 -->
-    <div id="seeker-reg" class="tab-content">
-        <div class="container section">
-            <div class="tier-header">
-                <span class="tier-badge badge-reg">注册</span>
-                <span class="tier-title">注册用户（按账户限流）</span>
-            </div>
-
-            <div class="info-box">
-                <p><span class="label">每日可调用：</span><span class="value">10 次</span></p>
-                <p><span class="label">可用接口：</span><span class="value">搜索岗位（携带 JWT Token）</span></p>
-                <p><span class="label">额外权益：</span><span class="value">可保存搜索记录、收藏岗位</span></p>
-            </div>
-
-            <p class="code-label">第一步：注册</p>
-<pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl -X POST <span class="string">"{{BASE_URL}}/v1/applicant/register"</span> \
-  -H <span class="string">"Content-Type: application/json"</span> \
-  -d <span class="string">'{
-    "email": "your@email.com",
-    "password": "your_password"
-  }'</span></pre>
-
-            <p class="code-label">第二步：登录获取 Token</p>
-<pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl -X POST <span class="string">"{{BASE_URL}}/v1/applicant/login"</span> \
-  -H <span class="string">"Content-Type: application/json"</span> \
-  -d <span class="string">'{
-    "email": "your@email.com",
-    "password": "your_password"
-  }'</span>
-
-<span class="comment">// 返回 token，后续请求携带此 token</span></pre>
-
-            <p class="code-label">第三步：携带 Token 查询岗位</p>
-<pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl <span class="string">"{{BASE_URL}}/v1/jobs/search?city=Beijing"</span> \
-  -H <span class="string">"Authorization: Bearer &lt;your_jwt_token&gt;"</span></pre>
-        </div>
-    </div>
-
-    <!-- 会员用户 -->
-    <div id="seeker-vip" class="tab-content">
-        <div class="container section">
-            <div class="tier-header">
-                <span class="tier-badge badge-vip">VIP</span>
-                <span class="tier-title">会员用户（9.9元/月）</span>
-            </div>
-
-            <div class="info-box">
-                <p><span class="label">每日可调用：</span><span class="value">100 次</span></p>
-                <p><span class="label">额外权益：</span><span class="value">100次/天查询、优先展示、专属客服</span></p>
-            </div>
-
-            <p class="code-label">订阅流程：</p>
-            <div class="step-flow">
-                <span class="step-item">创建订单</span>
-                <span class="step-arrow">→</span>
-                <span class="step-item">获取支付链接</span>
-                <span class="step-arrow">→</span>
-                <span class="step-item">支付宝付款</span>
-                <span class="step-arrow">→</span>
-                <span class="step-item">自动开通会员</span>
-            </div>
-
-            <p class="code-label">订阅会员：</p>
-<pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl -X POST <span class="string">"{{BASE_URL}}/v1/payment/member/subscribe"</span> \
-  -H <span class="string">"Authorization: Bearer &lt;your_jwt_token&gt;"</span></pre>
-
-            <p class="code-label">返回支付链接：</p>
-<pre>{
-  <span class="key">"success"</span>: <span class="string">true</span>,
-  <span class="key">"data"</span>: {
-    <span class="key">"order_no"</span>: <span class="string">"PAY20260405..."</span>,
-    <span class="key">"pay_url"</span>: <span class="string">"https://openapi.alipay.com/..."</span>,
-    <span class="key">"amount"</span>: <span class="string">9.9</span>
-  }
-}</pre>
-        </div>
-    </div>
-</div>
-
-<!-- ==================== 招聘方 ==================== -->
-<div id="tab-employer" class="tab-content">
-    <div class="container">
-        <div class="sub-tabs">
-            <div class="sub-tab active" onclick="switchSubTab('employer', 'auth')">企业认证</div>
-            <div class="sub-tab" onclick="switchSubTab('employer', 'base')">基础使用</div>
-            <div class="sub-tab" onclick="switchSubTab('employer', 'paid')">充值使用</div>
-        </div>
-    </div>
-
-    <!-- 企业认证 -->
-    <div id="employer-auth" class="tab-content active">
-        <div class="container section">
-            <div class="tier-header">
-                <span class="tier-badge badge-free">第一步</span>
-                <span class="tier-title">企业认证（注册即通过）</span>
-            </div>
-
-            <div class="info-box">
-                <p><span class="label">审核方式：</span><span class="value">注册即自动审核通过，立即获得 API Key</span></p>
-                <p><span class="label">返回内容：</span><span class="value">API Key（ak_开头），后续所有操作都需要此 Key</span></p>
-            </div>
-
-            <p class="code-label">注册招聘方：</p>
-<pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl -X POST <span class="string">"{{BASE_URL}}/v1/employer/register"</span> \
-  -H <span class="string">"Content-Type: application/json"</span> \
-  -d <span class="string">'{
-    "company_name": "我的公司名称",
-    "credit_code": "91110000MA00XXXXXX",
-    "email": "hr@company.com",
-    "password": "your_password"
-  }'</span></pre>
-
-            <p class="code-label">返回：</p>
-<pre>{
-  <span class="key">"success"</span>: <span class="string">true</span>,
-  <span class="key">"data"</span>: {
-    <span class="key">"api_key"</span>: <span class="string">"ak_xxxxxxxxxxxxxxxx"</span>,
-    <span class="key">"status"</span>: <span class="string">"approved"</span>,
-    <span class="key">"message"</span>: <span class="string">"注册成功，API Key已发放"</span>
-  }
-}</pre>
-
-            <div class="info-box" style="background: #fff8e1; border-left-color: #f59e0b;">
-                <p><span class="label" style="color: #d97706;">注意：</span><span class="value">credit_code 为18位统一社会信用代码，由数字和大写字母组成</span></p>
-                <p><span class="value">请妥善保管 api_key，丢失可通过登录接口重新获取</span></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- 基础使用 -->
-    <div id="employer-base" class="tab-content">
-        <div class="container section">
-            <div class="tier-header">
-                <span class="tier-badge badge-base">免费</span>
-                <span class="tier-title">基础使用（免费3个岗位/30天有效）</span>
-            </div>
-
-            <div class="info-box">
-                <p><span class="label">免费额度：</span><span class="value">3 个岗位，每个有效期30天</span></p>
-                <p><span class="label">认证方式：</span><span class="value">Authorization: Bearer &lt;api_key&gt;</span></p>
-                <p><span class="label">可用操作：</span><span class="value">发布/更新/删除/过期岗位</span></p>
-            </div>
-
-            <p class="code-label">发布岗位：</p>
-<pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl -X POST <span class="string">"{{BASE_URL}}/v1/employer/jobs"</span> \
-  -H <span class="string">"Content-Type: application/json"</span> \
-  -H <span class="string">"Authorization: Bearer ak_xxxxxxxxxxxxxxxx"</span> \
-  -d <span class="string">'{
-    "title": "Python Developer",
-    "city": "Shanghai",
-    "salary_min": 15000,
-    "salary_max": 25000,
-    "job_type": "fulltime",
-    "description": "岗位职责和要求...",
-    "contact_email": "hr@company.com",
-    "tags": ["Python", "后端开发"]
-  }'</span></pre>
-
-            <p class="code-label">其他操作：</p>
-<pre><span class="comment"># 查看我的岗位列表</span>
-GET  <span class="string">{{BASE_URL}}/v1/employer/jobs</span>
-Header: Authorization: Bearer ak_xxx
-
-<span class="comment"># 更新岗位</span>
-PUT  <span class="string">{{BASE_URL}}/v1/employer/jobs/{job_id}</span>
-
-<span class="comment"># 删除岗位（软删除）</span>
-DELETE <span class="string">{{BASE_URL}}/v1/employer/jobs/{job_id}</span>
-
-<span class="comment"># 设为过期</span>
-PATCH <span class="string">{{BASE_URL}}/v1/employer/jobs/{job_id}/expire</span></pre>
-        </div>
-    </div>
-
-    <!-- 充值使用 -->
-    <div id="employer-paid" class="tab-content">
-        <div class="container section">
-            <div class="tier-header">
-                <span class="tier-badge badge-paid">充值</span>
-                <span class="tier-title">充值使用</span>
-            </div>
-
-            <!-- 价格对比表 -->
-            <div class="info-box" style="background:#fff; border-left-color:#db2777; padding:0; overflow:hidden;">
-                <table class="api-table" style="margin:0;">
-                    <thead>
-                        <tr><th>购买方式</th><th>价格</th><th>岗位数</th><th>单价</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>单条购买</strong></td><td>2 元/条</td><td>按需</td><td>2 元</td></tr>
-                        <tr style="background:#f0fff4;"><td><strong>包月套餐</strong></td><td>19.9 元/月</td><td>30 个/月</td><td style="color:#16a34a;font-weight:600;">0.66 元</td></tr>
-                        <tr style="background:#fefce8;"><td><strong>包年套餐</strong></td><td>199 元/年</td><td>5000个/年</td><td style="color:#d97706;font-weight:600;">0.04元/条</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <p class="code-label">支付流程：</p>
-            <div class="step-flow">
-                <span class="step-item">创建订单</span>
-                <span class="step-arrow">→</span>
-                <span class="step-item">获取支付链接</span>
-                <span class="step-arrow">→</span>
-                <span class="step-item">支付宝付款</span>
-                <span class="step-arrow">→</span>
-                <span class="step-item">额度自动到账</span>
-            </div>
-
-            <p class="code-label">单条购买（2元/条）：</p>
-<pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl -X POST <span class="string">"{{BASE_URL}}/v1/payment/job-slots"</span> \
-  -H <span class="string">"Content-Type: application/json"</span> \
-  -H <span class="string">"Authorization: Bearer ak_xxxxxxxxxxxxxxxx"</span> \
-  -d <span class="string">'{
-    "quantity": 10
-  }'</span>
-
-<span class="comment">// 返回支付链接，金额 = quantity x 2元</span></pre>
-
-            <p class="code-label">包月套餐（19.9元/月，30个岗位）：</p>
-<pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl -X POST <span class="string">"{{BASE_URL}}/v1/payment/employer/monthly"</span> \
-  -H <span class="string">"Authorization: Bearer ak_xxxxxxxxxxxxxxxx"</span></pre>
-
-            <p class="code-label">包年套餐（199元/年，不限岗位）：</p>
-<pre><button class="copy-btn" onclick="copyCode(this)">复制</button>curl -X POST <span class="string">"{{BASE_URL}}/v1/payment/employer/yearly"</span> \
-  -H <span class="string">"Authorization: Bearer ak_xxxxxxxxxxxxxxxx"</span></pre>
-
-            <p class="code-label">查询订单状态：</p>
-<pre>curl <span class="string">"{{BASE_URL}}/v1/payment/orders/{order_no}"</span> \
-  -H <span class="string">"Authorization: Bearer ak_xxxxxxxxxxxxxxxx"</span></pre>
-        </div>
-    </div>
-</div>
-
-<!-- ==================== 接口总览 ==================== -->
-<div class="section section-alt">
-    <div class="container">
-        <h2 style="font-size:1.5em; margin-bottom:16px; text-align:center;">接口总览</h2>
-        <table class="api-table">
-            <thead>
-                <tr><th>方法</th><th>路径</th><th>说明</th><th>认证</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><span class="method method-post">POST</span></td><td><code>/v1/employer/register</code></td><td>招聘方注册</td><td>无需</td></tr>
-                <tr><td><span class="method method-post">POST</span></td><td><code>/v1/employer/login</code></td><td>招聘方登录</td><td>无需</td></tr>
-                <tr><td><span class="method method-get">GET</span></td><td><code>/v1/employer/profile</code></td><td>账户信息</td><td>API Key</td></tr>
-                <tr><td><span class="method method-post">POST</span></td><td><code>/v1/employer/jobs</code></td><td>发布岗位</td><td>API Key</td></tr>
-                <tr><td><span class="method method-put">PUT</span></td><td><code>/v1/employer/jobs/{id}</code></td><td>更新岗位</td><td>API Key</td></tr>
-                <tr><td><span class="method method-delete">DELETE</span></td><td><code>/v1/employer/jobs/{id}</code></td><td>删除岗位</td><td>API Key</td></tr>
-                <tr><td><span class="method method-patch">PATCH</span></td><td><code>/v1/employer/jobs/{id}/expire</code></td><td>设为过期</td><td>API Key</td></tr>
-                <tr><td><span class="method method-get">GET</span></td><td><code>/v1/employer/jobs</code></td><td>我的岗位列表</td><td>API Key</td></tr>
-                <tr style="border-top: 2px solid #e5e7eb;">
-                    <td><span class="method method-post">POST</span></td><td><code>/v1/applicant/register</code></td><td>应聘方注册</td><td>无需</td></tr>
-                <tr><td><span class="method method-post">POST</span></td><td><code>/v1/applicant/login</code></td><td>应聘方登录</td><td>无需</td></tr>
-                <tr><td><span class="method method-get">GET</span></td><td><code>/v1/jobs/search</code></td><td>搜索岗位</td><td>无需/可选</td></tr>
-                <tr style="border-top: 2px solid #e5e7eb;">
-                    <td><span class="method method-post">POST</span></td><td><code>/v1/payment/member/subscribe</code></td><td>会员订阅</td><td>JWT</td></tr>
-                <tr><td><span class="method method-post">POST</span></td><td><code>/v1/payment/job-slots</code></td><td>单条购买(2元/条)</td><td>API Key</td></tr>
-                <tr><td><span class="method method-post">POST</span></td><td><code>/v1/payment/employer/monthly</code></td><td>包月套餐(19.9元/月)</td><td>API Key</td></tr>
-                <tr><td><span class="method method-post">POST</span></td><td><code>/v1/payment/employer/yearly</code></td><td>包年套餐(199元/年)</td><td>API Key</td></tr>
-                <tr><td><span class="method method-get">GET</span></td><td><code>/v1/payment/orders/{no}</code></td><td>查询订单</td><td>Token</td></tr>
-                <tr style="border-top: 2px solid #e5e7eb;">
-                    <td><span class="method method-get">GET</span></td><td><code>/v1/tags</code></td><td>标签列表</td><td>无需</td></tr>
-            </tbody>
-        </table>
-        <p style="text-align:center; margin-top:20px;">
-            <a href="/docs" class="btn btn-white" style="background:#4f46e5; color:white;">查看完整 API 文档 (Swagger)</a>
-        </p>
-    </div>
-</div>
-
-<!-- ==================== Agent Skill ==================== -->
-<div class="section" style="background: linear-gradient(135deg, #1e1b4b, #312e81); color: white;">
-    <div class="container">
-        <h2 style="font-size:1.5em; margin-bottom:8px; text-align:center; color:white;">AI Agent 一键接入</h2>
-        <p style="text-align:center; opacity:0.8; margin-bottom:24px;">将以下 Skill 配置到你的 AI Agent 中，即可通过对话完成招聘发布</p>
-
-        <div style="position:relative; background:rgba(0,0,0,0.3); border-radius:12px; padding:20px;">
-            <button onclick="copySkill()" id="skill-copy-btn" style="position:absolute; top:12px; right:12px; background:#4f46e5; color:white; border:none; padding:8px 20px; border-radius:8px; cursor:pointer; font-size:0.9em; font-weight:600;">
-                一键复制 Skill
-            </button>
-            <textarea id="skill-content" readonly style="width:100%; height:400px; background:transparent; color:#e2e8f0; border:none; font-family:monospace; font-size:0.82em; line-height:1.6; resize:vertical; outline:none;" id="skill-textarea"># Agent直聘 - 招聘方 Skill
-
-你是「Agent直聘」平台的招聘助手。帮助招聘方在平台上注册、发布和管理招聘信息。
+你是「Agent直聘」平台的招聘助手，帮助招聘方注册、发布和管理招聘信息。
 
 ## 平台信息
 
@@ -459,68 +108,52 @@ PATCH <span class="string">{{BASE_URL}}/v1/employer/jobs/{job_id}/expire</span><
 
 ### Step 0: 检查 API Key
 
-每次对话开始时，检查用户是否已有 API Key：
-- 有 → 直接进入 Step 2（发布岗位）
-- 没有 → 进入 Step 1（注册引导）
+每次对话开始，检查用户是否有 API Key：
+- **有** → 验证有效性后直接进入 Step 2
+- **没有** → 进入 Step 1
 
-验证 API Key 是否有效：
-GET https://api.baihehuakai666.asia/v1/employer/profile
-Authorization: Bearer &lt;api_key&gt;
+验证：GET /v1/employer/profile，Header 带 Authorization: Bearer &lt;api_key&gt;
+- 200 → 有效
+- 401 → 失效，引导重新登录
 
----
+### Step 1: 注册（仅首次）
 
-### Step 1: 注册引导（仅首次使用）
-
-逐步收集以下信息（一次只问一个问题）：
+逐步收集，一次只问一个问题：
 1. 公司名称
-2. 统一社会信用代码（18位数字和大写字母）
+2. 统一社会信用代码（18位数字+大写字母）
 3. 企业邮箱
 4. 密码（8-32位）
 
-调用注册：
-POST https://api.baihehuakai666.asia/v1/employer/register
-Content-Type: application/json
-{"company_name":"公司名","credit_code":"18位代码","email":"邮箱","password":"密码"}
+POST /v1/employer/register
+{"company_name":"...", "credit_code":"...", "email":"...", "password":"..."}
 
-注册成功后保存 API Key（ak_开头），后续所有操作都需要它。
-
-已有账号？登录获取 API Key：
-POST https://api.baihehuakai666.asia/v1/employer/login
-{"email":"邮箱","password":"密码"}
-
----
+成功后保存 API Key。如邮箱已注册，引导登录：
+POST /v1/employer/login
+{"email":"...", "password":"..."}
 
 ### Step 2: 收集岗位信息
 
-自然对话式引导，优先收集必填项：
+自然对话引导，先收集必填项：
 1. 岗位名称 → "请问要招聘什么岗位？"
-2. 工作城市 → "工作地点在哪个城市？"
-3. 薪资范围 → "薪资范围？（如 15000-25000）"
+2. 城市 → "工作地点？"
+3. 薪资范围 → "薪资多少？（如 15000-25000）"
 4. 岗位类型 → "全职/兼职/远程？"
-5. 岗位描述 → "请描述岗位职责和要求"
-6. 联系邮箱 → "求职者通过什么邮箱联系？"
+5. 描述 → "请描述岗位职责和要求"
+6. 联系邮箱 → "联系邮箱？"
 
-可选信息询问一次："需要补充学历要求、经验要求、微信、电话、标签吗？"
+可选信息问一次："需要补充学历、经验、微信、电话、标签吗？"
 
-字段说明：
-- title(必填) city(必填) salary_min/salary_max(必填,元) job_type(必填,fulltime/parttime/remote)
-- description(必填) contact_email(必填)
-- education experience contact_wechat contact_phone company_scale industry tags(均可选)
-
----
+字段: title(必填) city(必填) salary_min/max(必填,元) job_type(必填,fulltime/parttime/remote) description(必填) contact_email(必填)
+可选: education experience contact_wechat contact_phone company_scale industry tags(数组)
 
 ### Step 3: 确认并发布
 
-展示岗位摘要让用户确认，确认后调用：
-POST https://api.baihehuakai666.asia/v1/employer/jobs
-Authorization: Bearer &lt;api_key&gt;
-Content-Type: application/json
+展示摘要确认后：
+POST /v1/employer/jobs，Header 带 Authorization: Bearer &lt;api_key&gt;
 
-发布成功告知剩余额度。额度不足时引导购买。
+成功告知剩余额度。额度不足引导购买。
 
----
-
-### Step 4: 后续管理
+### Step 4: 管理岗位
 
 - 查看岗位: GET /v1/employer/jobs
 - 更新岗位: PUT /v1/employer/jobs/{id}
@@ -528,29 +161,21 @@ Content-Type: application/json
 - 设为过期: PATCH /v1/employer/jobs/{id}/expire
 - 账户信息: GET /v1/employer/profile
 
----
+## 购买额度
 
-### 购买额度
-
-额度不足时，引导用户选择：
+额度不足时引导用户选择：
 
 1. 单条购买（2元/条）：
-POST https://api.baihehuakai666.asia/v1/payment/job-slots
-Authorization: Bearer &lt;api_key&gt;
-{"quantity": 10}
-→ 返回支付链接，用户在浏览器打开付款
+POST /v1/payment/job-slots {"quantity": 10}
+→ 返回支付链接，浏览器打开付款
 
 2. 包月套餐（19.9元/月，30个岗位）：
-POST https://api.baihehuakai666.asia/v1/payment/employer/monthly
-Authorization: Bearer &lt;api_key&gt;
+POST /v1/payment/employer/monthly
 
 3. 包年套餐（199元/年，5000个岗位）：
-POST https://api.baihehuakai666.asia/v1/payment/employer/yearly
-Authorization: Bearer &lt;api_key&gt;
+POST /v1/payment/employer/yearly
 
-支付流程：创建订单 → 获取支付链接 → 用户浏览器付款 → 额度自动到账
-
----
+支付流程：创建订单 → 获取支付链接 → 浏览器付款 → 额度自动到账
 
 ## 定价
 
@@ -563,12 +188,77 @@ Authorization: Bearer &lt;api_key&gt;
 
 ## 交互风格
 
-- 语气专业友好，一次只问一个问题
+- 专业友好，一次只问一个问题
 - 发布前一定要确认
 - 保存 API Key 方便后续使用
 - 额度不足时主动引导购买</textarea>
         </div>
     </div>
+</div>
+
+<!-- Pricing -->
+<div class="pricing">
+    <div class="container">
+        <h2>套餐价格</h2>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="name">免费体验</div>
+                <div class="price">0<small>元</small></div>
+                <div class="desc">3个岗位<br>每个30天有效</div>
+            </div>
+            <div class="price-card">
+                <div class="name">单条购买</div>
+                <div class="price">2<small>元/条</small></div>
+                <div class="desc">按需购买<br>即时到账</div>
+            </div>
+            <div class="price-card recommended">
+                <div class="badge">推荐</div>
+                <div class="name">包月套餐</div>
+                <div class="price">19.9<small>元/月</small></div>
+                <div class="desc">30个岗位/月<br>约0.66元/条</div>
+            </div>
+            <div class="price-card">
+                <div class="name">包年套餐</div>
+                <div class="price">199<small>元/年</small></div>
+                <div class="desc">5000个岗位/年<br>约0.04元/条</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Usage Flow -->
+<div class="flow">
+    <div class="container">
+        <h2>使用流程</h2>
+        <div class="flow-steps">
+            <div class="flow-step">
+                <div class="num">1</div>
+                <div class="title">复制 Skill</div>
+                <div class="desc">点击上方「一键复制」按钮</div>
+            </div>
+            <div class="flow-step">
+                <div class="num">2</div>
+                <div class="title">粘贴给 Agent</div>
+                <div class="desc">粘贴到你使用的 AI Agent 的系统提示词中</div>
+            </div>
+            <div class="flow-step">
+                <div class="num">3</div>
+                <div class="title">对话发布</div>
+                <div class="desc">告诉 Agent "帮我发布一个招聘"，按引导操作</div>
+            </div>
+            <div class="flow-step">
+                <div class="num">4</div>
+                <div class="title">管理岗位</div>
+                <div class="desc">随时通过对话更新、删除、查看岗位</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Links -->
+<div class="links">
+    <a href="/docs">Swagger API 文档</a>
+    <a href="/redoc">ReDoc 文档</a>
 </div>
 
 <!-- Footer -->
@@ -580,68 +270,18 @@ Authorization: Bearer &lt;api_key&gt;
 </div>
 
 <script>
-const BASE = window.location.origin;
-
-// Replace template variables in code blocks
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('pre').forEach(el => {
-        const btn = el.querySelector('.copy-btn');
-        const codeText = el.textContent.replace('复制', '').trim();
-        // Also replace in displayed text
-        el.innerHTML = el.innerHTML.replace(/\{\{BASE_URL\}\}/g, BASE);
-    });
-});
-
-// Copy skill
 function copySkill() {
     const textarea = document.getElementById('skill-content');
     let text = textarea.value;
-    // Replace escaped HTML entities back
     text = text.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
     navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById('skill-copy-btn');
         btn.textContent = '已复制!';
-        btn.style.background = '#16a34a';
+        btn.classList.add('copied');
         setTimeout(() => {
-            btn.textContent = '一键复制 Skill';
-            btn.style.background = '#4f46e5';
+            btn.textContent = '一键复制';
+            btn.classList.remove('copied');
         }, 2000);
-    });
-}
-
-// Main tab switching
-function switchMainTab(tab) {
-    document.querySelectorAll('.main-tab').forEach((t, i) => {
-        t.classList.toggle('active', (tab === 'seeker' && i === 0) || (tab === 'employer' && i === 1));
-    });
-    document.getElementById('tab-seeker').classList.toggle('active', tab === 'seeker');
-    document.getElementById('tab-employer').classList.toggle('active', tab === 'employer');
-}
-
-// Sub tab switching
-function switchSubTab(group, tab) {
-    const prefix = group + '-';
-    // Update sub-tab styles
-    document.querySelectorAll('#tab-' + group + ' .sub-tab').forEach(t => {
-        t.classList.toggle('active', t.textContent.includes(
-            tab === 'free' ? '免登录' : tab === 'reg' ? '注册' : tab === 'vip' ? '会员' :
-            tab === 'auth' ? '认证' : tab === 'base' ? '基础' : '充值'
-        ));
-    });
-    // Show/hide content
-    document.querySelectorAll('#tab-' + group + ' > .tab-content').forEach(el => {
-        el.classList.toggle('active', el.id === prefix + tab);
-    });
-}
-
-// Copy code
-function copyCode(btn) {
-    const pre = btn.parentElement;
-    let text = pre.textContent.replace('复制', '').trim();
-    text = text.replace(/\{\{BASE_URL\}\}/g, BASE);
-    navigator.clipboard.writeText(text).then(() => {
-        btn.textContent = '已复制';
-        setTimeout(() => btn.textContent = '复制', 1500);
     });
 }
 </script>
