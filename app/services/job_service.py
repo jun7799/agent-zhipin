@@ -1,7 +1,7 @@
 """岗位业务逻辑"""
 
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 from sqlalchemy import select, func, or_, and_
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,6 +14,21 @@ from app.models.job_tag import JobTag
 from app.models.employer import Employer
 
 
+def _check_subscription(employer: Employer) -> str:
+    """
+    检查招聘方订阅状态，返回 'yearly'/'monthly'/'free'
+    包年=不限量，包月=每月N条，free=靠free_slots
+    """
+    now = datetime.now(timezone.utc)
+    if (
+        employer.subscription_type in ("monthly", "yearly")
+        and employer.subscription_expire_at
+        and employer.subscription_expire_at > now
+    ):
+        return employer.subscription_type
+    return "free"
+
+
 async def create_job(
     db: AsyncSession,
     employer: Employer,
@@ -21,11 +36,32 @@ async def create_job(
     tag_names: list[str] | None = None,
 ) -> Job:
     """发布岗位"""
-    # 检查免费额度
-    if employer.free_slots <= 0:
-        raise ValueError(
-            "免费发布额度已用完，请购买额外发布次数"
-        )
+    sub = _check_subscription(employer)
+    now = datetime.now(timezone.utc)
+
+    if sub == "yearly":
+        # 包年不限量，只记录计数
+        employer.period_jobs_posted += 1
+    elif sub == "monthly":
+        # 包月检查当月额度
+        if employer.period_jobs_posted >= settings.EMPLOYER_MONTHLY_SLOTS:
+            raise ValueError(
+                f"当月已发布 {employer.period_jobs_posted} 个岗位，"
+                f"包月上限 {settings.EMPLOYER_MONTHLY_SLOTS} 个，请升级包年或单条购买"
+            )
+        employer.period_jobs_posted += 1
+    else:
+        # 免费用户，检查 free_slots
+        if employer.free_slots <= 0:
+            raise ValueError(
+                "免费发布额度已用完，请购买额外发布次数或升级套餐"
+            )
+        employer.free_slots -= 1
+
+    # 如果没有指定过期时间，默认30天
+    expire_at = job_data.get("expire_at")
+    if not expire_at:
+        expire_at = now + timedelta(days=settings.JOB_DEFAULT_EXPIRE_DAYS)
 
     job = Job(
         employer_id=employer.id,
@@ -43,12 +79,9 @@ async def create_job(
         contact_phone=job_data.get("contact_phone"),
         company_scale=job_data.get("company_scale"),
         industry=job_data.get("industry"),
-        expire_at=job_data.get("expire_at"),
+        expire_at=expire_at,
     )
     db.add(job)
-
-    # 扣减免费额度
-    employer.free_slots -= 1
 
     await db.flush()
 
