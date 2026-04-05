@@ -40,7 +40,11 @@ async def create_job(
     now = datetime.now(timezone.utc)
 
     if sub == "yearly":
-        # 包年不限量，只记录计数
+        # 包年限量5000个/年
+        if employer.period_jobs_posted >= settings.EMPLOYER_YEARLY_SLOTS:
+            raise ValueError(
+                f"包年额度已用完（{settings.EMPLOYER_YEARLY_SLOTS}个/年），请联系客服续费"
+            )
         employer.period_jobs_posted += 1
     elif sub == "monthly":
         # 包月检查当月额度

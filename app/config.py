@@ -38,7 +38,7 @@ class Settings:
     # 招聘方套餐
     EMPLOYER_MONTHLY_PRICE_CENTS: int = int(os.getenv("EMPLOYER_MONTHLY_PRICE_CENTS", "1990"))  # 19.9元/月
     EMPLOYER_MONTHLY_SLOTS: int = int(os.getenv("EMPLOYER_MONTHLY_SLOTS", "30"))
-    EMPLOYER_YEARLY_PRICE_CENTS: int = int(os.getenv("EMPLOYER_YEARLY_PRICE_CENTS", "19900"))  # 199元/年
+    EMPLOYER_YEARLY_SLOTS: int = int(os.getenv("EMPLOYER_YEARLY_SLOTS", "5000"))
     DEFAULT_PAGE_SIZE: int = int(os.getenv("DEFAULT_PAGE_SIZE", "10"))
     MAX_PAGE_SIZE: int = int(os.getenv("MAX_PAGE_SIZE", "50"))
 
