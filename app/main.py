@@ -12,6 +12,7 @@ from app.database import init_db
 from app.api.router import api_router
 
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+SKILLS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "skills")
 
 
 @asynccontextmanager
@@ -59,3 +60,21 @@ async def qrcode():
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+
+@app.get("/skills/seeker.md")
+async def seeker_skill():
+    """求职者Skill文件"""
+    return FileResponse(
+        os.path.join(SKILLS_DIR, "seeker-skill.md"),
+        media_type="text/markdown",
+    )
+
+
+@app.get("/skills/employer.md")
+async def employer_skill():
+    """招聘方Skill文件"""
+    return FileResponse(
+        os.path.join(SKILLS_DIR, "employer-skill.md"),
+        media_type="text/markdown",
+    )
