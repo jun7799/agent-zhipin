@@ -12,4 +12,4 @@ httpx==0.28.1
 apscheduler==3.10.4
 python-dotenv==1.0.1
 python-multipart==0.0.19
-python-alipay-sdk==3.4.0
+# 虎皮椒支付用 httpx（已在上方引入）

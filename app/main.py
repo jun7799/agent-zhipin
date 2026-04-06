@@ -50,6 +50,12 @@ async def root():
     return FileResponse(os.path.join(STATIC_DIR, "index.html"))
 
 
+@app.get("/qrcode.jpg")
+async def qrcode():
+    """收款码图片"""
+    return FileResponse(os.path.join(STATIC_DIR, "qrcode.jpg"), media_type="image/jpeg")
+
+
 @app.get("/health")
 async def health():
     return {"status": "ok"}

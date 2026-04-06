@@ -1,4 +1,4 @@
-"""岗位查询接口路由（应聘方和匿名用户使用）"""
+"""岗位查询接口路由 - 带限流防滥用"""
 
 from fastapi import APIRouter, Depends, Request, Header
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,8 +14,7 @@ router = APIRouter()
 async def _get_caller_info(
     request: Request, authorization: str | None = None
 ) -> dict:
-    """获取调用者信息（用于限流判断）"""
-    # 获取IP
+    """获取调用者信息"""
     ip = request.headers.get("X-Real-IP") or request.headers.get(
         "X-Forwarded-For", request.client.host if request.client else "unknown"
     )
@@ -24,7 +23,6 @@ async def _get_caller_info(
 
     caller_type = "anonymous"
     caller_id = None
-    is_member = False
 
     if authorization and authorization.startswith("Bearer "):
         token = authorization[7:]
@@ -32,13 +30,14 @@ async def _get_caller_info(
         if payload and payload.get("type") == "applicant":
             caller_type = "applicant"
             caller_id = payload.get("sub")
-            is_member = payload.get("is_member", False)
+        elif payload and payload.get("type") == "employer":
+            caller_type = "employer"
+            caller_id = payload.get("sub")
 
     return {
         "ip": ip,
         "caller_type": caller_type,
         "caller_id": caller_id,
-        "is_member": is_member,
     }
 
 
@@ -57,59 +56,34 @@ async def search_jobs(
     authorization: str | None = Header(None),
     db: AsyncSession = Depends(get_db),
 ):
-    """搜索岗位（核心查询接口）"""
+    """搜索岗位（匿名5次/天，注册用户50次/天）"""
     caller = await _get_caller_info(request, authorization)
 
-    # 限流检查
-    rate_info = await rate_limit_service.check_rate_limit(
-        db,
-        caller["ip"],
-        caller["caller_type"],
-        caller["caller_id"],
-        caller["is_member"],
+    rate_info = await rate_limit_service.check_query_limit(
+        db, caller["ip"], caller["caller_type"], caller["caller_id"]
     )
 
     if not rate_info["allowed"]:
         return error(
             "RATE_LIMIT_EXCEEDED",
-            "今日查询次数已用完，请明天再试或升级会员",
+            "今日查询次数已用完，请明天再试，或注册账号获取更多次数",
             429,
-            {
-                "limit": rate_info["limit"],
-                "used": rate_info["used"],
-                "remaining": rate_info["remaining"],
-            },
+            {"limit": rate_info["limit"], "used": rate_info["used"], "remaining": rate_info["remaining"]},
         )
 
-    # 解析标签
     tag_list = [t.strip() for t in tags.split(",") if t.strip()] if tags else None
 
     data = await job_service.search_jobs(
-        db,
-        city=city,
-        salary_min=salary_min,
-        salary_max=salary_max,
-        job_type=job_type,
-        keyword=keyword,
-        experience=experience,
-        tags=tag_list,
-        page=page,
-        page_size=min(page_size, 50),
+        db, city=city, salary_min=salary_min, salary_max=salary_max,
+        job_type=job_type, keyword=keyword, experience=experience,
+        tags=tag_list, page=page, page_size=min(page_size, 50),
     )
 
-    # 记录调用
-    await rate_limit_service.record_call(
-        db,
-        caller["ip"],
-        "/v1/jobs/search",
-        caller["caller_type"],
-        caller["caller_id"],
+    await rate_limit_service.record_query(
+        db, caller["ip"], "/v1/jobs/search", caller["caller_type"], caller["caller_id"]
     )
 
-    return success(
-        data,
-        meta={"rate_limit": rate_info},
-    )
+    return success(data, meta={"rate_limit": rate_info})
 
 
 @router.get("/jobs/{job_id}")
@@ -122,12 +96,8 @@ async def get_job(
     """获取单个岗位详情"""
     caller = await _get_caller_info(request, authorization)
 
-    rate_info = await rate_limit_service.check_rate_limit(
-        db,
-        caller["ip"],
-        caller["caller_type"],
-        caller["caller_id"],
-        caller["is_member"],
+    rate_info = await rate_limit_service.check_query_limit(
+        db, caller["ip"], caller["caller_type"], caller["caller_id"]
     )
 
     if not rate_info["allowed"]:
@@ -137,7 +107,7 @@ async def get_job(
     if not data:
         return error("NOT_FOUND", "岗位不存在", 404)
 
-    await rate_limit_service.record_call(
+    await rate_limit_service.record_query(
         db, caller["ip"], f"/v1/jobs/{job_id}", caller["caller_type"], caller["caller_id"]
     )
 

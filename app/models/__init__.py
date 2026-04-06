@@ -6,7 +6,6 @@ from app.models.job import Job
 from app.models.tag import Tag
 from app.models.job_tag import JobTag
 from app.models.api_call_log import ApiCallLog
-from app.models.payment import Payment
 
 __all__ = [
     "Employer",
@@ -15,5 +14,4 @@ __all__ = [
     "Tag",
     "JobTag",
     "ApiCallLog",
-    "Payment",
 ]

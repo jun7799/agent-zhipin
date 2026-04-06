@@ -14,16 +14,13 @@ async def register(
     db: AsyncSession, company_name: str, credit_code: str, email: str, password: str
 ) -> Employer:
     """招聘方注册"""
-    # 校验信用代码格式
     if not validate_credit_code(credit_code):
         raise ValueError("统一社会信用代码格式不正确，需18位数字和大写字母")
 
-    # 检查邮箱是否已注册
     existing = await db.execute(select(Employer).where(Employer.email == email))
     if existing.scalar_one_or_none():
         raise ValueError("该邮箱已注册")
 
-    # 检查信用代码是否已注册
     existing = await db.execute(
         select(Employer).where(Employer.credit_code == credit_code)
     )
@@ -35,7 +32,7 @@ async def register(
         credit_code=credit_code,
         email=email,
         password_hash=hash_password(password),
-        status="approved",  # 前期自动审核通过
+        status="approved",
         api_key=generate_api_key(),
         api_key_secret=generate_api_key_secret(),
     )
@@ -59,7 +56,6 @@ async def login(db: AsyncSession, email: str, password: str) -> dict:
         "company_name": employer.company_name,
         "api_key": employer.api_key,
         "status": employer.status,
-        "free_slots": employer.free_slots,
         "token": token,
     }
 
@@ -77,12 +73,11 @@ async def get_profile(db: AsyncSession, employer_id: str) -> dict:
     if not employer:
         raise ValueError("用户不存在")
 
-    # 统计岗位数量
     total_result = await db.execute(
-        select(func.count()).where(Job.employer_id == employer_id)
+        select(func.count()).select_from(Job).where(Job.employer_id == employer_id)
     )
     active_result = await db.execute(
-        select(func.count()).where(
+        select(func.count()).select_from(Job).where(
             Job.employer_id == employer_id, Job.status == "active"
         )
     )
@@ -96,7 +91,6 @@ async def get_profile(db: AsyncSession, employer_id: str) -> dict:
         "email": employer.email,
         "api_key": employer.api_key,
         "status": employer.status,
-        "free_slots": employer.free_slots,
         "total_jobs": total_jobs,
         "active_jobs": active_jobs,
         "created_at": employer.created_at.isoformat() if employer.created_at else None,

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-Agent直聘 - 面向AI Agent的极简招聘信息API平台。AI Agent通过API Key认证发布岗位，或通过JWT Token查询岗位。技术栈：Python 3.11 + FastAPI + SQLAlchemy (async) + aiosqlite + 支付宝支付。
+Agent直聘 - 面向AI Agent的极简招聘信息API平台。AI Agent通过API Key认证发布岗位，或通过JWT Token查询岗位。技术栈：Python 3.11 + FastAPI + SQLAlchemy (async) + aiosqlite + 虎皮椒支付。
 
 ## 常用命令
 
@@ -33,10 +33,7 @@ python scripts/clean_expired_jobs.py
 复制 `.env` 文件配置以下关键变量（参考 `app/config.py`）：
 - `DATABASE_URL`：SQLite连接串，默认 `sqlite+aiosqlite:///./data/agent_zhipin.db`
 - `JWT_SECRET_KEY`：JWT签名密钥，生产环境必须更换
-- `ALIPAY_APP_ID` / `ALIPAY_APP_PRIVATE_KEY_PATH` / `ALIPAY_PUBLIC_KEY_PATH`：支付宝支付配置
-- `ALIPAY_DEBUG`：`true` 使用支付宝沙箱环境
-
-支付密钥文件放 `keys/` 目录，已在 `.gitignore` 中排除。
+- `XUNHU_APPID` / `XUNHU_SECRET`：虎皮椒支付配置，注册 https://api.xunhupay.com 获取
 
 ## 架构概览
 
@@ -52,7 +49,7 @@ app/
 ├── services/            # 业务逻辑层（每个角色一个service）
 ├── api/                 # FastAPI路由层（每个角色一个路由文件）
 │   └── router.py        # 总路由注册，所有API挂载在 /v1 前缀下
-├── core/                # 基础设施：JWT/密码工具、API Key生成、支付宝客户端封装
+├── core/                # 基础设施：JWT/密码工具、API Key生成、虎皮椒支付客户端封装
 └── utils/               # 工具函数：统一响应格式、信用代码校验
 ```
 
@@ -76,11 +73,11 @@ app/
 
 ### 限流机制
 
-基于 `ApiCallLog` 按天统计，三级限额：匿名用户(5次) < 注册用户(10次) < 会员(100次)，招聘方不限。通过IP或caller_id追踪。
+基于 `ApiCallLog` 按天统计，三级限额：匿名用户(3次) < 注册用户(20次) < 会员(200次)，招聘方不限。通过IP或caller_id追踪。
 
 ### 支付流程
 
-创建订单 -> 生成支付宝支付链接 -> 支付宝异步回调 `/v1/payment/alipay/notify` -> 验签后更新订单状态 -> 自动充值会员时长或岗位发布额度。
+创建订单 -> 调用虎皮椒API生成支付链接 -> 用户扫码/跳转支付 -> 虎皮椒异步回调 `/v1/payment/notify`（form表单格式）-> MD5验签后更新订单状态 -> 自动充值会员时长或岗位发布额度。支持：求职者会员、招聘方单条购买、包月、包年四种订单类型。
 
 ### 统一响应格式
 

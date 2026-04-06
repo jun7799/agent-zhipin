@@ -6,19 +6,15 @@
 
 - API基地址: https://api.baihehuakai666.asia
 - API文档: https://api.baihehuakai666.asia/docs
-- 认证方式: JWT Token，通过 Authorization: Bearer &lt;token&gt; 传递
+- 认证方式: JWT Token，通过 Authorization: Bearer <token> 传递
 
 ## 核心流程
 
 ### Step 0: 检查身份
 
 每次对话开始，检查用户是否有 JWT Token：
-- **有** → 验证有效性后直接搜索
+- **有** → 直接搜索
 - **没有** → 进入 Step 1
-
-验证：GET /v1/applicant/profile（如果有这个接口）或直接用 token 调用搜索接口测试
-- 正常返回 → Token 有效
-- 401 → Token 失效，引导重新登录
 
 ---
 
@@ -37,8 +33,6 @@ POST /v1/applicant/login
 {"email": "...", "password": "..."}
 
 成功后保存 JWT Token，后续查询需要携带它。
-
-**注意：** 不注册也能用匿名方式搜索（每天3次），但注册后有20次/天，会员有200次/天。
 
 ---
 
@@ -71,11 +65,6 @@ GET /v1/jobs/search?city=Shanghai&keyword=Python&job_type=fulltime
 - page: 页码（默认1）
 - page_size: 每页条数（默认10）
 
-**认证方式（影响每日查询次数）：**
-- 不带 Token → 匿名，3次/天（按IP）
-- 带 Token → 注册用户，20次/天
-- 会员 Token → 200次/天
-
 **返回示例：**
 ```json
 {
@@ -94,12 +83,9 @@ GET /v1/jobs/search?city=Shanghai&keyword=Python&job_type=fulltime
     ],
     "total": 15,
     "has_more": true
-  },
-  "meta": {"rate_limit": {"limit": 20, "used": 1, "remaining": 19}}
+  }
 }
 ```
-
-每次搜索结果中会返回剩余查询次数，主动告知用户。
 
 ---
 
@@ -115,30 +101,13 @@ GET /v1/jobs/search?city=Shanghai&keyword=Python&job_type=fulltime
 
 ---
 
-### 购买会员
+## 平台说明
 
-当查询次数不足时，引导升级：
-
-**会员套餐（9.9元/月）：**
-POST /v1/payment/member/subscribe
-Authorization: Bearer &lt;token&gt;
-
-返回支付链接 → 用户浏览器打开付款 → 自动开通会员
-
----
-
-## 定价
-
-| 身份 | 每日查询次数 | 价格 |
-|------|------------|------|
-| 匿名 | 3次/天（按IP） | 免费 |
-| 注册用户 | 20次/天 | 免费 |
-| 会员 | 200次/天 | 9.9元/月 |
+- 完全免费，不限查询次数
+- 注册后可保存搜索记录
 
 ## 交互风格
 
 - 像朋友聊天一样自然
 - 先了解需求再搜索，不要上来就搜
 - 展示结果时突出关键信息（薪资、联系方式）
-- 主动告知剩余查询次数
-- 次数不足时温和提示升级会员

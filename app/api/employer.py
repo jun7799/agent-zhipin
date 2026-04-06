@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_db
 from app.services import employer_service, job_service
+from app.services import rate_limit_service
 from app.schemas.employer import EmployerRegisterRequest, EmployerLoginRequest
 from app.schemas.job import JobCreateRequest, JobUpdateRequest
 from app.utils.response import success, error
@@ -78,10 +79,20 @@ async def create_job(
     authorization: str = Header(None),
     db: AsyncSession = Depends(get_db),
 ):
-    """发布岗位"""
+    """发布岗位（每日限制50个）"""
     employer = await _get_employer(authorization, db)
     if not employer:
         return error("AUTH_ERROR", "API Key无效或账号未审核", 401)
+
+    # 检查今日发布数量
+    post_limit = await rate_limit_service.check_post_limit(db, employer.id)
+    if not post_limit["allowed"]:
+        return error(
+            "RATE_LIMIT_EXCEEDED",
+            f"今日已发布 {post_limit['used']} 个岗位，每日上限 {post_limit['limit']} 个",
+            429,
+            post_limit,
+        )
 
     job_data = {
         "title": req.title,
@@ -102,6 +113,8 @@ async def create_job(
 
     try:
         job = await job_service.create_job(db, employer, job_data, req.tags)
+        # 记录发布次数
+        await rate_limit_service.record_post(db, employer.id)
         return success(
             {
                 "id": job.id,
@@ -110,14 +123,10 @@ async def create_job(
                 "published_at": (
                     job.published_at.isoformat() if job.published_at else None
                 ),
-                "deducted_slots": 1,
-                "remaining_slots": employer.free_slots,
             },
             201,
         )
     except ValueError as e:
-        if "额度" in str(e):
-            return error("SLOTS_EXHAUSTED", str(e), 402)
         return error("VALIDATION_ERROR", str(e), 400)
 
 

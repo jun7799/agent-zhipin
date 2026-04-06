@@ -3,9 +3,8 @@
 import uuid
 from datetime import datetime, timezone, timedelta
 
-from sqlalchemy import select, func, or_, and_
+from sqlalchemy import select, func, or_, and_, delete
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
 from app.config import settings
 from app.models.job import Job
@@ -14,55 +13,16 @@ from app.models.job_tag import JobTag
 from app.models.employer import Employer
 
 
-def _check_subscription(employer: Employer) -> str:
-    """
-    检查招聘方订阅状态，返回 'yearly'/'monthly'/'free'
-    包年=不限量，包月=每月N条，free=靠free_slots
-    """
-    now = datetime.now(timezone.utc)
-    if (
-        employer.subscription_type in ("monthly", "yearly")
-        and employer.subscription_expire_at
-        and employer.subscription_expire_at > now
-    ):
-        return employer.subscription_type
-    return "free"
-
-
 async def create_job(
     db: AsyncSession,
     employer: Employer,
     job_data: dict,
     tag_names: list[str] | None = None,
 ) -> Job:
-    """发布岗位"""
-    sub = _check_subscription(employer)
+    """发布岗位（免费，无额度限制）"""
     now = datetime.now(timezone.utc)
 
-    if sub == "yearly":
-        # 包年限量5000个/年
-        if employer.period_jobs_posted >= settings.EMPLOYER_YEARLY_SLOTS:
-            raise ValueError(
-                f"包年额度已用完（{settings.EMPLOYER_YEARLY_SLOTS}个/年），请联系客服续费"
-            )
-        employer.period_jobs_posted += 1
-    elif sub == "monthly":
-        # 包月检查当月额度
-        if employer.period_jobs_posted >= settings.EMPLOYER_MONTHLY_SLOTS:
-            raise ValueError(
-                f"当月已发布 {employer.period_jobs_posted} 个岗位，"
-                f"包月上限 {settings.EMPLOYER_MONTHLY_SLOTS} 个，请升级包年或单条购买"
-            )
-        employer.period_jobs_posted += 1
-    else:
-        # 免费用户，检查 free_slots
-        if employer.free_slots <= 0:
-            raise ValueError(
-                "免费发布额度已用完，请购买额外发布次数或升级套餐"
-            )
-        employer.free_slots -= 1
-
-    # 如果没有指定过期时间，默认30天
+    # 默认30天过期
     expire_at = job_data.get("expire_at")
     if not expire_at:
         expire_at = now + timedelta(days=settings.JOB_DEFAULT_EXPIRE_DAYS)
@@ -123,8 +83,7 @@ async def update_job(
     # 更新标签
     if tag_names is not None:
         # 先删除旧标签
-        from sqlalchemy import delete
-
+        # 先删除旧标签
         await db.execute(delete(JobTag).where(JobTag.job_id == job_id))
         await _add_tags_to_job(db, job_id, tag_names)
 
