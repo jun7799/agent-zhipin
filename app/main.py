@@ -12,7 +12,6 @@ from app.database import init_db
 from app.api.router import api_router
 
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
-SKILLS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "skills")
 
 
 @asynccontextmanager
@@ -66,7 +65,7 @@ async def health():
 async def seeker_skill():
     """求职者Skill文件"""
     return FileResponse(
-        os.path.join(SKILLS_DIR, "seeker-skill.md"),
+        os.path.join(STATIC_DIR, "skills", "seeker.md"),
         media_type="text/markdown",
     )
 
@@ -75,6 +74,6 @@ async def seeker_skill():
 async def employer_skill():
     """招聘方Skill文件"""
     return FileResponse(
-        os.path.join(SKILLS_DIR, "employer-skill.md"),
+        os.path.join(STATIC_DIR, "skills", "employer.md"),
         media_type="text/markdown",
     )
